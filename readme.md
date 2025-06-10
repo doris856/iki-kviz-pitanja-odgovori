@@ -100,6 +100,8 @@ Za pokretanje aplikacije osigurati:
 - Da nijedna druga aplikacija ne koristi port 8080 ili promijeniti port u `application.properties`
 - Da su ispravne postavke za bazu podataka
 
+---
+
 ### Uvoz dump-a baze podataka (DBeaver)
 
 Pokreni "DBeaver" i spoji se na svoju "MariaDB/MySQL" instancu.
@@ -115,6 +117,8 @@ Odaberi svoj `.sql` dump file s diska.
 Klikni Execute (ili pritisni Ctrl+Enter) za izvođenje dump-a.
 
 Provjeri tablice u bazi — trebale bi biti popunjene.
+
+---
 
 ### Uvod dump-a baze podataka (PhpMyAdmin)
 
