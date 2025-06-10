@@ -4,10 +4,14 @@
  */
 package ffos.dgreger.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  *
  * @author svenk
  */
-public class OdgovoriDTO {
+public record PitanjeDTO(
+        @Schema(example = "Koji je glavni cilj Dana sigurnijeg interneta?") String tekst
+        ) {
     
 }
