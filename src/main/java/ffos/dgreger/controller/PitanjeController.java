@@ -129,7 +129,7 @@ public class PitanjeController {
             description = "Vraća sve odgovore koji pripadaju pitanju s navedenom šifrom.",
             parameters = {
                 @Parameter(
-                        name = "sifraPitanja",
+                        name = "sifra",
                         allowEmptyValue = false,
                         required = true,
                         description = "Primarni ključ pitanja u bazi podataka",
