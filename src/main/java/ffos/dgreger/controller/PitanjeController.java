@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author svenk
  */
 
-@Tag(name = "Odgovor", description = "Dostupne rute za entitet Pitanje. Sve funkcionalnosti - GET (get, getBySifra i getOdgovore) i POST.")
+@Tag(name = "Pitanje", description = "Dostupne rute za entitet Pitanje. Sve funkcionalnosti - GET (get, getBySifra i getOdgovore) i POST.")
 @RestController
 @RequestMapping("/api/dgreger/pitanje")
 public class PitanjeController {
