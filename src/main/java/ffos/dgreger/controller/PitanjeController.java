@@ -7,6 +7,14 @@ package ffos.dgreger.controller;
 import ffos.dgreger.model.Pitanje;
 import ffos.dgreger.model.dto.PitanjeDTO;
 import ffos.dgreger.service.PitanjeService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author svenk
  */
+
+@Tag(name = "Odgovor", description = "Dostupne rute za entitet Pitanje. Sve funkcionalnosti - GET (get, getBySifra i getOdgovore) i POST.")
 @RestController
 @RequestMapping("/api/dgreger/pitanje")
 public class PitanjeController {
@@ -29,6 +39,15 @@ public class PitanjeController {
         this.pitanjeService = pitanjeService;
     }
     
+    @Operation(
+            summary = "Dohvaća sva pitanja", tags = {"get", "pitanje"},
+            description = "Dohvaća sve pitanja sa svim podacima"
+    )
+    @ApiResponses(
+            value = {
+                @ApiResponse(responseCode = "200", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Pitanje.class)))),
+                @ApiResponse(responseCode = "500", description = "Interna pogreška servera", content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html"))
+            })
     @GetMapping("/get")
     public ResponseEntity get(){
         try {
@@ -38,6 +57,25 @@ public class PitanjeController {
         }
     }
     
+        @Operation(
+            summary = "Dohvaća pitanje po šifri",
+            description = "Dohvaća pitanje po danoj šifri sa svim podacima. "
+            + "Ukoliko ne postoji pitanje za danu šifru vraća prazan odgovor",
+            tags = {"pitanje", "getBy"},
+            parameters = {
+                @Parameter(
+                        name = "sifra",
+                        allowEmptyValue = false,
+                        required = true,
+                        description = "Primarni ključ pitanja u bazi podataka, mora biti veći od nula",
+                        example = "2"
+                )})
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = Pitanje.class), mediaType = "application/json")),
+        @ApiResponse(responseCode = "204", description = "Ne postoji pitanje za danu šifru", content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html")),
+        @ApiResponse(responseCode = "400", description = "Šifra mora biti veća od nula", content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html")),
+        @ApiResponse(responseCode = "500", description = "Interna pogreška servera", content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html"))
+    })
     @GetMapping("/getBySifra")
     public ResponseEntity getBySifra(
             @RequestParam int sifra
@@ -58,6 +96,15 @@ public class PitanjeController {
         }
     }
     
+    @Operation(
+            summary = "Kreira novo pitanje",
+            tags = {"post", "pitanje"},
+            description = "Kreira novo pitanje. Tekst pitanja obavezno!")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Kreirano", content = @Content(schema = @Schema(implementation = Pitanje.class), mediaType = "application/json")),
+        @ApiResponse(responseCode = "400", description = "Loš zahtjev (nije primljen dto objekt ili ne postoji tekst)", content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html")),
+        @ApiResponse(responseCode = "500", description = "Interna pogreška servera", content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html"))
+    })
     @PostMapping("/post")
     public ResponseEntity post(
             @RequestBody(required = true) PitanjeDTO dto
@@ -77,6 +124,27 @@ public class PitanjeController {
         }
     }
     
+    @Operation(
+            summary = "Dohvaća sve odgovore jednog pitanja",
+            description = "Vraća sve odgovore koji pripadaju pitanju s navedenom šifrom.",
+            parameters = {
+                @Parameter(
+                        name = "sifraPitanja",
+                        allowEmptyValue = false,
+                        required = true,
+                        description = "Primarni ključ pitanja u bazi podataka",
+                        example = "3"
+                )
+            }
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Popis odjela unutar tvrtke",
+                content = @Content(mediaType = "application/json")),
+        @ApiResponse(responseCode = "204", description = "Šifra mora biti veća od nula ili nema odjela za zadanu tvrtku",
+                content = @Content),
+        @ApiResponse(responseCode = "500", description = "Interna pogreška servera",
+                content = @Content(schema = @Schema(implementation = String.class), mediaType = "text/html"))
+    })
     @GetMapping("/getOdgovore")
     public ResponseEntity getOdgovore(
             @RequestParam int sifra
