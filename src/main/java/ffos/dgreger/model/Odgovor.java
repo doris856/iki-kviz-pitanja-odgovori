@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
  *
  * @author svenk
  */
-@Entity(name = "odgovori")
+@Entity(name = "odgovor")
 public class Odgovor extends Entitet{
     @ManyToOne
     private Pitanje pitanje;

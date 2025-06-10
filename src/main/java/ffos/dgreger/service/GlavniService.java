@@ -4,6 +4,7 @@
  */
 package ffos.dgreger.service;
 
+import ffos.HibernateUtil;
 import jakarta.persistence.MappedSuperclass;
 import org.hibernate.Session;
 
@@ -16,6 +17,6 @@ public abstract class GlavniService {
     protected Session session;
 
     public GlavniService() {
-        this.session = session;
+        session = HibernateUtil.getSession();
     }
 }

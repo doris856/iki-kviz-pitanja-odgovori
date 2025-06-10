@@ -11,7 +11,7 @@ import jakarta.persistence.Entity;
  *
  * @author svenk
  */
-@Entity(name = "pitanja")
+@Entity(name = "pitanje")
 public class Pitanje extends Entitet{
     @Column(nullable = false)
     private String tekst;
