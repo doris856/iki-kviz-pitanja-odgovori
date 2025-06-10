@@ -33,7 +33,7 @@ public class PitanjeService extends GlavniService{
     }
     
     public List<Odgovor> getOdgovore(int sifra){
-        return session.createQuery("from odgovor o where o.pitanja.sifra = :sifra", Odgovor.class)
+        return session.createQuery("from odgovor o where o.pitanje.sifra = :sifra", Odgovor.class)
                 .setParameter("sifra", sifra)
                 .list();
     }
