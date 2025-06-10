@@ -20,7 +20,7 @@ public class OdgovorService extends GlavniService{
         return session.createQuery("from odgovor", Odgovor.class).list();
     }
     
-    public Odgovor getByOdgovor(int sifra){
+    public Odgovor getBySifra(int sifra){
         return session.get(Odgovor.class, sifra);
     }
     
